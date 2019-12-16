@@ -1,2 +1,2 @@
-# sky-downloader-python-cli
-A CLI tool used to search and download YouTube videos using python.
+# sky-downloader-python
+A CLI and GUI tool used to search and download YouTube videos using python.
