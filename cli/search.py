@@ -8,13 +8,32 @@ from bs4 import BeautifulSoup
 import urllib.request
 
 class Search:
-
     def __init__(self, type):
         self.query = ''
         self.type = type
         self.source = 'yt'
         self.url = ''
         self.results = []
+
+    def askUserChoice(self):
+        answer = input("Which one would you like to download? (0) to Exit: \n")
+        if int(answer) > 0 and int(answer) < 31:
+            choice = int(answer) - 1
+            self.results[choice].downloadVideo()
+            
+        elif answer == 0:
+            pass
+        else:
+            self.showQueryResults()
+            self.askUserChoice()
+
+
+    def showQueryResults(self):
+        counter = 0
+        for vid in self.results:
+            counter += 1
+            print(str(counter) + '.' + vid.title)
+
 
     def initiateSearch(self):
         passedQuery = urllib.request.quote(self.query)
@@ -24,7 +43,18 @@ class Search:
         soup = BeautifulSoup(html, 'html.parser')
 
         for vid in soup.findAll(attrs={'class':'yt-uix-tile-link'}):
-            self.results.append(vid)
+            if not vid['href'].startswith("https://googleads.g.doubleclick.net/"):
+                video = Video(vid['title'], vid['href'])
+                self.results.append(video)
+
+                '''
+                title
+                class
+                data-sessionlink
+                dir
+                href
+                rel
+                '''
 
 
 

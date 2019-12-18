@@ -13,6 +13,9 @@ def audioAnswer():
 def videoAnswer():
     search = Search('video')
     search.initiateQuery()
+    search.showQueryResults()
+    search.askUserChoice()
+    askUser()
 
     
 

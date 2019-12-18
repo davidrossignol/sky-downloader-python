@@ -4,8 +4,27 @@
  Author:  2019 David Rossignol
 '''
 
-
+from __future__ import unicode_literals
 import json
+
+import youtube_dl
+
+
+class MyLogger(object):
+    def debug(self, msg):
+        pass
+
+    def warning(self, msg):
+        pass
+
+    def error(self, msg):
+        print(msg)
+
+
+def my_hook(d):
+    if d['status'] == 'finished':
+        print('Done downloading, now converting ...')
+
 
 # Main class that will manage what can be done to a video
 class Video:
@@ -14,7 +33,24 @@ class Video:
     self.url = url
     self.length = 0
     self.author = ''
+    self.ydl_opts = {
+    'format': 'bestaudio/best',
+    'download_archive': 'downloaded_songs.txt',
+    'outtmpl': 'C:/Users/Panda/Music/%(title)s.%(ext)s',
+    'postprocessors': [{
+        'key': 'FFmpegExtractAudio',
+        'preferredcodec': 'mp3',
+        'preferredquality': '192',
+    }],
+    'logger': MyLogger(),
+    'progress_hooks': [my_hook],
+  }
     
+  def downloadVideo(self):
+    with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
+      ydl.download(['https://www.youtube.com' + self.url])
+
+
     # Returns the url to the video's thumbnail
   def getVideoThumbnail(self):
     pass
@@ -31,8 +67,8 @@ class Video:
   def addVideoToDownloadedList(self):
     vid = {'video': {
       'title': self.title,
-      'length': self.getVideoLength(),
-      'author': self.getVideoAuthor,
+      #'length': self.getVideoLength(),
+      #'author': self.getVideoAuthor,
       'url': self.url
     }}
 

@@ -1,0 +1,6 @@
+
+cli/__pycache__/
+
+*.toc
+
+cli/downloaded_songs.txt
