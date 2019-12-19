@@ -4,3 +4,5 @@ cli/__pycache__/
 *.toc
 
 cli/downloaded_songs.txt
+
+cli/downloaded_vids.txt

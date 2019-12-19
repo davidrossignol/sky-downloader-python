@@ -6,27 +6,27 @@
 
 from search import Search
 
-
-def audioAnswer():
-    pass
-
-def videoAnswer():
-    search = Search('video')
+def searchComplete(search):
     search.initiateQuery()
     search.showQueryResults()
     search.askUserChoice()
     askUser()
 
-    
+def audioAnswer():
+    search = Search('audio')
+    searchComplete(search)
+
+def videoAnswer():
+    search = Search('video')
+    searchComplete(search)
 
 
 def askUser():
     answer = input("What would you like to do? \n\n(1) Download a video\n(2) Download an audio\n(3) Exit\n\nAnswer: ")
-
     if answer == '1':
         videoAnswer()
     elif answer == '2':
-        audioAnswer
+        audioAnswer()
     elif answer == '3':
         pass
     else:

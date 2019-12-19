@@ -4,6 +4,7 @@
  Author:  2019 David Rossignol
 '''
 from video import Video
+from audio import Audio
 from bs4 import BeautifulSoup
 import urllib.request
 
@@ -19,8 +20,10 @@ class Search:
         answer = input("Which one would you like to download? (0) to Exit: \n")
         if int(answer) > 0 and int(answer) < 31:
             choice = int(answer) - 1
-            self.results[choice].downloadVideo()
-            
+            if self.type == 'video':
+                self.results[choice].downloadVideo()
+            elif self.type == 'audio':
+                self.results[choice].downloadAudio()
         elif answer == 0:
             pass
         else:
@@ -35,6 +38,7 @@ class Search:
             print(str(counter) + '.' + vid.title)
 
 
+
     def initiateSearch(self):
         passedQuery = urllib.request.quote(self.query)
         self.url = "https://www.youtube.com/results?search_query=" + passedQuery
@@ -44,7 +48,7 @@ class Search:
 
         for vid in soup.findAll(attrs={'class':'yt-uix-tile-link'}):
             if not vid['href'].startswith("https://googleads.g.doubleclick.net/"):
-                video = Video(vid['title'], vid['href'])
+                video = Video(vid['title'], vid['href']) if (self.type == 'video') is True else Audio(vid['title'], vid['href'])
                 self.results.append(video)
 
                 '''
@@ -57,11 +61,13 @@ class Search:
                 '''
 
 
-
     def initiateQuery(self):
         if self.type == 'video':
             self.query = input("Enter name of video: ")
-
+            if self.source == 'yt':
+                self.initiateSearch()
+        elif self.type == 'audio':
+            self.query = input("Enter name of audio: ")
             if self.source == 'yt':
                 self.initiateSearch()
 

@@ -35,13 +35,8 @@ class Video:
     self.author = ''
     self.ydl_opts = {
     'format': 'bestaudio/best',
-    'download_archive': 'downloaded_songs.txt',
-    'outtmpl': 'C:/Users/Panda/Music/%(title)s.%(ext)s',
-    'postprocessors': [{
-        'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'mp3',
-        'preferredquality': '192',
-    }],
+    'download_archive': 'downloaded_vids.txt',
+    'outtmpl': 'C:/Users/Panda/Videos/%(title)s.%(ext)s',
     'logger': MyLogger(),
     'progress_hooks': [my_hook],
   }
@@ -50,18 +45,6 @@ class Video:
     with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
       ydl.download(['https://www.youtube.com' + self.url])
 
-
-    # Returns the url to the video's thumbnail
-  def getVideoThumbnail(self):
-    pass
-
-    # Returns the author of the video as a string
-  def getVideoAuthor(self):
-    pass
-
-  # Return the video length in seconds as an integer
-  def getVideoLength(self):
-    pass
 
   # Add the video to a 'Already downloaded' file to not download duplicates.
   def addVideoToDownloadedList(self):
